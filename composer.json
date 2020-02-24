@@ -1,0 +1,15 @@
+{
+    "name": "mvcframework/mvcframework",
+    "authors": [
+        {
+            "name": "Antonio Codrea",
+            "email": "antonio.codrea@evozon.com"
+        }
+    ],
+    "require": {
+        "psr/http-message": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {"Framework\\": "src/"}
+    }
+}
