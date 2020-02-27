@@ -9,10 +9,14 @@ $baseDir = dirname(__DIR__);
 require $baseDir.'/vendor/autoload.php';
 
 // obtain the DI container
-$container = require $baseDir.'/config/services.php';
+/*$container = require $baseDir.'/config/services.php';
+
+
 
 // create the application and handle the request
 $application = Application::create($container);
 $request = Request::createFromGlobals();
 $response = $application->handle($request);
-$response->send();
+$response->send();*/
+
+var_dump(preg_match('/^\/user\/(?<id>\d+)$/', 'user/1'));

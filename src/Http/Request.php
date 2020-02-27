@@ -8,6 +8,12 @@ use Psr\Http\Message\UriInterface;
 
 class Request implements RequestInterface
 {
+    private $get = null;
+    private $post = null;
+    private $server = null;
+    private $file = null;
+    private $cookie = null;
+
     public static function createFromGlobals(): self
     {
         // TODO:
@@ -38,7 +44,7 @@ class Request implements RequestInterface
      */
     public function getProtocolVersion()
     {
-        // TODO: Implement getProtocolVersion() method.
+        return $_SERVER["SERVER_PROTOCOL"];
     }
 
     /**
@@ -54,7 +60,7 @@ class Request implements RequestInterface
      */
     public function getHeaders()
     {
-        // TODO: Implement getHeaders() method.
+        return $_SERVER["HTTP_HOST"];
     }
 
     /**
@@ -142,7 +148,7 @@ class Request implements RequestInterface
      */
     public function getMethod()
     {
-        // TODO: Implement getMethod() method.
+        return $_SERVER["REQUEST_METHOD"];
     }
 
     /**
@@ -158,7 +164,7 @@ class Request implements RequestInterface
      */
     public function getUri()
     {
-        // TODO: Implement getUri() method.
+        return $_SERVER["REQUEST_URI"];
     }
 
     /**
@@ -167,5 +173,10 @@ class Request implements RequestInterface
     public function withUri(UriInterface $uri, $preserveHost = false)
     {
         // TODO: Implement withUri() method.
+    }
+
+    public function getPath(): string
+    {
+        // TODO: Implement function getPath().
     }
 }
