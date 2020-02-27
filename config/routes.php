@@ -4,7 +4,7 @@ use Framework\Router\Router;
 
 $configuration = [
     'dispatcher' => [
-        ['controllerNamespace' => 'Framework\Controller',
+        'controllerNamespace' => 'Framework\Controller',
             'controllerSuffix' => 'Controller'
         ],
     'routing' => [
@@ -16,7 +16,8 @@ $configuration = [
                 Router::CONFIG_KEY_PATH => '/user/{id}',
                 'attributes' => [
                     'id' => '\d+'
-                ],
+                ]
+            ],
             'user_get_all' => [
                 'method' => 'GET',
                 'controller' => 'user',
@@ -24,10 +25,7 @@ $configuration = [
                 Router::CONFIG_KEY_PATH => '/user',
                 'attributes' => []
             ]
-
-            ],
-        ]
-    ]
+        ],
     ]
 ];
 

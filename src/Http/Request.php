@@ -2,11 +2,11 @@
 
 namespace Framework\Http;
 
-use Psr\Http\Message\RequestInterface;
+use Framework\Http\Message;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 
-class Request implements RequestInterface
+class Request extends Message
 {
     private $get = null;
     private $post = null;
@@ -19,7 +19,9 @@ class Request implements RequestInterface
         // TODO:
         // look in $_GET, $_POST, $_SERVER, $_FILES, $_COOKIES and extract data into this objects properties for
         // easy access
-        return new self();
+        $Request = new Request();
+        $Request = $Request->withProtocolVersion();
+        return $Request;
     }
 
     public function getParameter(string $name)
@@ -44,7 +46,7 @@ class Request implements RequestInterface
      */
     public function getProtocolVersion()
     {
-        return $_SERVER["SERVER_PROTOCOL"];
+        return $this->server[""];
     }
 
     /**
@@ -148,7 +150,7 @@ class Request implements RequestInterface
      */
     public function getMethod()
     {
-        return $_SERVER["REQUEST_METHOD"];
+        return ;
     }
 
     /**
@@ -164,7 +166,7 @@ class Request implements RequestInterface
      */
     public function getUri()
     {
-        return $_SERVER["REQUEST_URI"];
+        return '/user/1';
     }
 
     /**
