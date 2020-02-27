@@ -8,6 +8,7 @@ require $baseDir.'/vendor/autoload.php';
 
 use Framework\Application;
 use Framework\Http\Request;
+use Framework\Http\URI;
 use Framework\Router\Router;
 
 // obtain the DI container
@@ -26,5 +27,5 @@ $response->send();*/
 $obj = new Router($x);
 $req = new Request();
 print_r($obj->route($req)); */
-
-print_r($_SERVER);
+$x = new URI("http", 'abc', 'def', 'wwww.example.com', '60', '/users/ids', 'add', 'top');
+echo $x;

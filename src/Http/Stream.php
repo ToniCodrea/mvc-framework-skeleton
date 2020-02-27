@@ -3,18 +3,41 @@
 
 namespace Framework\Http;
 
-
 use Psr\Http\Message\StreamInterface;
 
 class Stream implements StreamInterface
 {
+    const DEFAULT_MEMORY = 5 * 1024 * 1024;
+    const DEFAULT_MODE = 'r+';
+    private $stream;
+    private $size;
+    private $writable;
+    private $readable;
+    private $seekable;
+
+    public function __construct($handler,int $size = null)
+    {
+        $this->stream = $handler;
+        $this->size = $size;
+        $this->writable = $this->readable = $this->seekable = true;
+    }
+
+    public static function createFromString(string $content): self
+    {
+        $stream = fopen(sprintf("php://temp/maxmemory:%s", self::DEFAULT_MEMORY), self::DEFAULT_MODE);
+        fwrite($stream,$content);
+        return new self($stream,strlen($content));
+    }
 
     /**
      * @inheritDoc
      */
     public function __toString()
     {
-        // TODO: Implement __toString() method.
+        if (!isset($this->stream)) {
+            return null;
+        }
+        return fread($this->stream, $this->size);
     }
 
     /**
@@ -22,7 +45,10 @@ class Stream implements StreamInterface
      */
     public function close()
     {
-        // TODO: Implement close() method.
+        if (!isset($this->stream)) {
+            return null;
+        }
+        fclose($this->stream);
     }
 
     /**
@@ -30,7 +56,13 @@ class Stream implements StreamInterface
      */
     public function detach()
     {
-        // TODO: Implement detach() method.
+        if (!isset($this->stream)) {
+            return null;
+        }
+
+        unset($this->stream);
+        $this->size = null;
+        $this->readable = $this->writable = $this->seekable = false;
     }
 
     /**
@@ -38,7 +70,7 @@ class Stream implements StreamInterface
      */
     public function getSize()
     {
-        // TODO: Implement getSize() method.
+        return $this->size;
     }
 
     /**
@@ -46,7 +78,10 @@ class Stream implements StreamInterface
      */
     public function tell()
     {
-        // TODO: Implement tell() method.
+        if (!isset($this->stream)) {
+            return null;
+        }
+        return ftell($this->stream);
     }
 
     /**
@@ -54,7 +89,10 @@ class Stream implements StreamInterface
      */
     public function eof()
     {
-        // TODO: Implement eof() method.
+        if (!isset($this->stream)) {
+            return null;
+        }
+        return feof($this->stream);
     }
 
     /**
@@ -62,7 +100,7 @@ class Stream implements StreamInterface
      */
     public function isSeekable()
     {
-        // TODO: Implement isSeekable() method.
+        return $this->seekable;
     }
 
     /**
@@ -70,7 +108,10 @@ class Stream implements StreamInterface
      */
     public function seek($offset, $whence = SEEK_SET)
     {
-        // TODO: Implement seek() method.
+        if (!isset($this->stream)) {
+            return null;
+        }
+        return fseek($this->stream, $offset, $whence);
     }
 
     /**
@@ -78,7 +119,10 @@ class Stream implements StreamInterface
      */
     public function rewind()
     {
-        // TODO: Implement rewind() method.
+        if (!isset($this->stream)) {
+            return null;
+        }
+        return rewind($this->stream);
     }
 
     /**
@@ -86,7 +130,7 @@ class Stream implements StreamInterface
      */
     public function isWritable()
     {
-        // TODO: Implement isWritable() method.
+        return $this->writable;
     }
 
     /**
@@ -94,7 +138,10 @@ class Stream implements StreamInterface
      */
     public function write($string)
     {
-        // TODO: Implement write() method.
+        if (!isset($this->stream)) {
+            return null;
+        }
+        return fwrite($this->stream, $string);
     }
 
     /**
@@ -102,7 +149,7 @@ class Stream implements StreamInterface
      */
     public function isReadable()
     {
-        // TODO: Implement isReadable() method.
+        return $this->readable;
     }
 
     /**
@@ -110,7 +157,10 @@ class Stream implements StreamInterface
      */
     public function read($length)
     {
-        // TODO: Implement read() method.
+        if (!isset($this->stream)) {
+            return null;
+        }
+        return fread($this->stream, $length);
     }
 
     /**
@@ -118,7 +168,11 @@ class Stream implements StreamInterface
      */
     public function getContents()
     {
-        // TODO: Implement getContents() method.
+        if (!isset($this->stream)) {
+            return null;
+        }
+        $this->rewind();
+        stream_get_contents($this->stream);
     }
 
     /**
@@ -126,6 +180,6 @@ class Stream implements StreamInterface
      */
     public function getMetadata($key = null)
     {
-        // TODO: Implement getMetadata() method.
+
     }
 }

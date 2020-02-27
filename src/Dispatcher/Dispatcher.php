@@ -12,7 +12,7 @@ class Dispatcher implements DispatcherInterface {
 
     private $controllerNamespaces;
     private $controllerSuffix;
-    private $controllers;
+    private array $controllers;
     /**
      * @inheritDoc
      */

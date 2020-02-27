@@ -3,138 +3,42 @@
 namespace Framework\Http;
 
 use Framework\Http\Message;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 
-class Request extends Message
+class Request extends Message implements RequestInterface
 {
-    private $get = null;
-    private $post = null;
-    private $server = null;
-    private $file = null;
-    private $cookie = null;
+    private $requestTarget;
+    private $method;
 
-    public static function createFromGlobals(): self
+    /**
+     * @var UriInterface
+     */
+    private $uri;
+
+    public function __construct()
+    {
+
+    }
+
+    /*public static function createFromGlobals(): self
     {
         // TODO:
         // look in $_GET, $_POST, $_SERVER, $_FILES, $_COOKIES and extract data into this objects properties for
         // easy access
         $Request = new Request();
-        $Request = $Request->withProtocolVersion();
         return $Request;
-    }
-
-    public function getParameter(string $name)
-    {
-        //TODO
-    }
-
-    public function getCookie(string $name)
-    {
-        //TODO
-    }
-
-    public function moveUploadedFile(string $path)
-    {
-        //TODO
-    }
-
-    // TODO: implement methods declared by RequestInterface
-
-    /**
-     * @inheritDoc
-     */
-    public function getProtocolVersion()
-    {
-        return $this->server[""];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withProtocolVersion($version)
-    {
-        // TODO: Implement withProtocolVersion() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getHeaders()
-    {
-        return $_SERVER["HTTP_HOST"];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function hasHeader($name)
-    {
-        // TODO: Implement hasHeader() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getHeader($name)
-    {
-        // TODO: Implement getHeader() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getHeaderLine($name)
-    {
-        // TODO: Implement getHeaderLine() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withHeader($name, $value)
-    {
-        // TODO: Implement withHeader() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withAddedHeader($name, $value)
-    {
-        // TODO: Implement withAddedHeader() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withoutHeader($name)
-    {
-        // TODO: Implement withoutHeader() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getBody()
-    {
-        // TODO: Implement getBody() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withBody(StreamInterface $body)
-    {
-        // TODO: Implement withBody() method.
-    }
+    } */
 
     /**
      * @inheritDoc
      */
     public function getRequestTarget()
     {
-        // TODO: Implement getRequestTarget() method.
+        if ($this->requestTarget) return $this->requestTarget;
+        if ($this->uri) return $this->uri->__toString();
+        return "/";
     }
 
     /**
@@ -142,7 +46,9 @@ class Request extends Message
      */
     public function withRequestTarget($requestTarget)
     {
-        // TODO: Implement withRequestTarget() method.
+        $request = clone $this;
+        $request->requestTarget = "$requestTarget";
+        return $request;
     }
 
     /**
@@ -150,7 +56,7 @@ class Request extends Message
      */
     public function getMethod()
     {
-        return ;
+        return $this->method;
     }
 
     /**
@@ -158,7 +64,9 @@ class Request extends Message
      */
     public function withMethod($method)
     {
-        // TODO: Implement withMethod() method.
+        $request = clone $this;
+        $request->method = $method;
+        return $request;
     }
 
     /**
@@ -166,7 +74,7 @@ class Request extends Message
      */
     public function getUri()
     {
-        return '/user/1';
+        return $this->uri;
     }
 
     /**
@@ -174,11 +82,8 @@ class Request extends Message
      */
     public function withUri(UriInterface $uri, $preserveHost = false)
     {
-        // TODO: Implement withUri() method.
-    }
-
-    public function getPath(): string
-    {
-        // TODO: Implement function getPath().
+        $request = clone $this;
+        $request->uri = $uri;
+        return $request;
     }
 }

@@ -9,9 +9,9 @@ use Psr\Http\Message\StreamInterface;
 
 class Message implements MessageInterface
 {
-    private $protocolVersion;
-    private $headers;
-    private $body;
+    private string $protocolVersion;
+    private array $headers;
+    private StreamInterface $body;
 
     /**
      * @inheritDoc
@@ -24,7 +24,7 @@ class Message implements MessageInterface
     /**
      * @inheritDoc
      */
-    public function withProtocolVersion($version) : self
+    public function withProtocolVersion($version)
     {
         $message = clone $this;
         $message->protocolVersion = $version;
@@ -35,7 +35,7 @@ class Message implements MessageInterface
     /**
      * @inheritDoc
      */
-    public function getHeaders() : array
+    public function getHeaders()
     {
         return $this->headers;
     }
@@ -43,25 +43,25 @@ class Message implements MessageInterface
     /**
      * @inheritDoc
      */
-    public function hasHeader($name) : bool
+    public function hasHeader($name)
     {
-        return $this->headers[$name];
+        return array_key_exists($name, $this->headers);
     }
 
     /**
      * @inheritDoc
      */
-    public function getHeader($name) : array
+    public function getHeader($name)
     {
         $arr = array();
-        $arr = preg_split('/,/', $this->headers[$name]);
+        $arr = explode(',', $this->headers[$name]));
         return $arr;
     }
 
     /**
      * @inheritDoc
      */
-    public function getHeaderLine($name) : string
+    public function getHeaderLine($name)
     {
         return $this->headers[$name];
     }
@@ -71,17 +71,18 @@ class Message implements MessageInterface
      */
     public function withHeader($name, $value)
     {
-        // TODO: Implement withHeader() method.
+        $message = clone $this;
+        $message->headers[$name] = $value;
+        return $message;
     }
 
     /**
      * @inheritDoc
      */
-    public function withAddedHeader($name, $value) : self
+    public function withAddedHeader($name, $value)
     {
         $message = clone $this;
-        $message->protocolVersion = $version;
-
+        if($message->headers[$name]) $message->headers[$name] =.$value;
         return $message;
     }
 
@@ -90,7 +91,9 @@ class Message implements MessageInterface
      */
     public function withoutHeader($name)
     {
-        // TODO: Implement withoutHeader() method.
+        $message = clone $this;
+        unset($message->headers[$name]);
+        return $message;
     }
 
     /**
@@ -98,7 +101,7 @@ class Message implements MessageInterface
      */
     public function getBody()
     {
-        // TODO: Implement getBody() method.
+        return $this->body;
     }
 
     /**
@@ -106,6 +109,8 @@ class Message implements MessageInterface
      */
     public function withBody(StreamInterface $body)
     {
-        // TODO: Implement withBody() method.
+        $message = clone $this;
+        $message->body = $body;
+        return $message;
     }
 }
