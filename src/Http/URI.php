@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Framework\Http;
-
 
 use Psr\Http\Message\UriInterface;
 
@@ -41,7 +39,7 @@ class URI implements UriInterface
     /**
      * @inheritDoc
      */
-    public function getScheme() : string
+    public function getScheme()
     {
         return $this->scheme;
     }
@@ -49,7 +47,7 @@ class URI implements UriInterface
     /**
      * @inheritDoc
      */
-    public function getAuthority() : string
+    public function getAuthority()
     {
         $authority = "";
         if ($this->getUserInfo()) $authority.= $this->getUserInfo()."@";
@@ -61,7 +59,7 @@ class URI implements UriInterface
     /**
      * @inheritDoc
      */
-    public function getUserInfo() : string
+    public function getUserInfo()
     {
         $info = "";
         if ($this->user) {
@@ -76,7 +74,7 @@ class URI implements UriInterface
     /**
      * @inheritDoc
      */
-    public function getHost() : string
+    public function getHost()
     {
         return strtolower($this->host);
     }
@@ -84,7 +82,7 @@ class URI implements UriInterface
     /**
      * @inheritDoc
      */
-    public function getPort() : int
+    public function getPort()
     {
         if ($this->port) return $this->port;
         if ($this->scheme) return 80;
@@ -102,7 +100,7 @@ class URI implements UriInterface
     /**
      * @inheritDoc
      */
-    public function getQuery() : string
+    public function getQuery()
     {
         return $this->query;
     }
@@ -110,7 +108,7 @@ class URI implements UriInterface
     /**
      * @inheritDoc
      */
-    public function getFragment() : string
+    public function getFragment()
     {
         return $this->fragment;
     }
@@ -118,7 +116,7 @@ class URI implements UriInterface
     /**
      * @inheritDoc
      */
-    public function withScheme($scheme) : self
+    public function withScheme($scheme)
     {
         $uri = clone $this;
         $uri->scheme = $scheme;
@@ -128,7 +126,7 @@ class URI implements UriInterface
     /**
      * @inheritDoc
      */
-    public function withUserInfo($user, $password = null) : self
+    public function withUserInfo($user, $password = null)
     {
         $uri = clone $this;
         $uri->user = $user;
@@ -140,7 +138,7 @@ class URI implements UriInterface
     /**
      * @inheritDoc
      */
-    public function withHost($host) : self
+    public function withHost($host)
     {
         $uri = clone $this;
         $uri->host = $host;
@@ -150,7 +148,7 @@ class URI implements UriInterface
     /**
      * @inheritDoc
      */
-    public function withPort($port) : self
+    public function withPort($port)
     {
         $uri = clone $this;
         $uri->port = $port;
@@ -160,7 +158,7 @@ class URI implements UriInterface
     /**
      * @inheritDoc
      */
-    public function withPath($path) : self
+    public function withPath($path)
     {
         $uri = clone $this;
         $uri->path = $path;
@@ -170,7 +168,7 @@ class URI implements UriInterface
     /**
      * @inheritDoc
      */
-    public function withQuery($query) :  self
+    public function withQuery($query)
     {
         $uri = clone $this;
         $uri->query = $query;
@@ -192,6 +190,12 @@ class URI implements UriInterface
      */
     public function __toString()
     {
-        // TODO: Implement __toString() method.
+        $string = "";
+        if ($this->getScheme()) $string.= $this->getScheme().":";
+        if ($this->getAuthority()) $string.="//".$this->getAuthority();
+        $string.=$this->getPath();
+        if($this->getQuery()) $string.="?".$this->getQuery();
+        if($this->getFragment()) $string.="#".$this->getFragment();
+        return $string;
     }
 }
