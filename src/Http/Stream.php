@@ -37,6 +37,7 @@ class Stream implements StreamInterface
         if (!isset($this->stream)) {
             return null;
         }
+        $this->rewind();
         return fread($this->stream, $this->size);
     }
 

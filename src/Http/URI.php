@@ -17,14 +17,14 @@ class URI implements UriInterface
     private $fragment;
 
     public function __construct(
-        string $scheme,
-        string $user,
-        string $password,
         string $host,
-        ?int $port,
-        string $path,
-        string $query,
-        string $fragment)
+        string $scheme = "HTTP",
+        string $user = "",
+        string $password = "",
+        ?int $port = 80,
+        string $path = "",
+        string $query = "",
+        string $fragment = "")
     {
         $this->scheme = $scheme;
         $this->user = $user;
@@ -34,6 +34,10 @@ class URI implements UriInterface
         $this->path = $path;
         $this->query = $query;
         $this->fragment = $fragment;
+    }
+
+    public static function createFromGlobals(): self {
+        return new URI($_SERVER['HTTP_HOST'], $_SERVER['REQUEST_SCHEME'], "", "", $_SERVER['SERVER_PORT'], $_SERVER['REQUEST_URI'], $_SERVER['QUERY_STRING'], "");
     }
 
     /**

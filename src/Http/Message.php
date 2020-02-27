@@ -9,9 +9,16 @@ use Psr\Http\Message\StreamInterface;
 
 class Message implements MessageInterface
 {
-    private string $protocolVersion;
-    private array $headers;
-    private StreamInterface $body;
+    protected $protocolVersion;
+    protected $headers;
+    protected $body;
+
+
+    public function __construct(string $protocolVersion, StreamInterface $body)
+    {
+        $this->protocolVersion = $protocolVersion;
+        $this->body = $body;
+    }
 
     /**
      * @inheritDoc
@@ -53,9 +60,7 @@ class Message implements MessageInterface
      */
     public function getHeader($name)
     {
-        $arr = array();
-        $arr = explode(',', $this->headers[$name]));
-        return $arr;
+        return $this->headers[$name];
     }
 
     /**
@@ -63,7 +68,7 @@ class Message implements MessageInterface
      */
     public function getHeaderLine($name)
     {
-        return $this->headers[$name];
+        return implode(",", $this->headers[$name]);
     }
 
     /**
@@ -72,7 +77,7 @@ class Message implements MessageInterface
     public function withHeader($name, $value)
     {
         $message = clone $this;
-        $message->headers[$name] = $value;
+        $message->headers[$name][] = $value;
         return $message;
     }
 
@@ -82,7 +87,7 @@ class Message implements MessageInterface
     public function withAddedHeader($name, $value)
     {
         $message = clone $this;
-        if($message->headers[$name]) $message->headers[$name] =.$value;
+        $message->headers[$name][] = $value;
         return $message;
     }
 

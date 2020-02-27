@@ -5,6 +5,7 @@ namespace Framework\Http;
 use Framework\Http\Message;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
+use Framework\Http\URI;
 use Psr\Http\Message\UriInterface;
 
 class Request extends Message implements RequestInterface
@@ -17,27 +18,53 @@ class Request extends Message implements RequestInterface
      */
     private $uri;
 
-    public function __construct()
+    public function __construct(
+        string $protocolVersion,
+        string $method,
+        UriInterface $uri,
+        StreamInterface $body
+    )
     {
+        parent::__construct($protocolVersion, $body);
+        $this->method = $method;
+        $this->uri = $uri;
+        }
 
+    public static function createFromGlobals(): self
+    {
+        $protocolVersion = $_SERVER['SERVER_PROTOCOL'];
+        $method = $_SERVER['REQUEST_METHOD'];
+        $uri = Uri::createFromGlobals();
+        $body = new Stream(fopen('php://input','r'));
+        $request = new self($protocolVersion,$method,$uri,$body);
+        foreach($_SERVER as $variableName => $variableValue){
+            if(strpos($variableName,'HTTP_') !== 0) {
+                continue;
+            }
+            $request->addRawHeader($variableName,$variableValue);
+        }
+
+        return $request;
     }
 
-    /*public static function createFromGlobals(): self
+    public function addRawHeader($name, $value)
     {
-        // TODO:
-        // look in $_GET, $_POST, $_SERVER, $_FILES, $_COOKIES and extract data into this objects properties for
-        // easy access
-        $Request = new Request();
-        return $Request;
-    } */
+        $name = ucwords(strtolower(strtr(substr($name, 5), '_', '-')), '-');
+        $this->headers[$name] = explode(',', $value);
+        return $this;
+    }
 
     /**
      * @inheritDoc
      */
     public function getRequestTarget()
     {
-        if ($this->requestTarget) return $this->requestTarget;
-        if ($this->uri) return $this->uri->__toString();
+        if ($this->requestTarget) {
+            return $this->requestTarget;
+        }
+        if ($this->uri) {
+            return $this->uri->__toString();
+        }
         return "/";
     }
 

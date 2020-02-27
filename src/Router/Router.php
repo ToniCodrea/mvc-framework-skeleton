@@ -19,16 +19,16 @@ class Router implements RouterInterface
 
     public function route(Request $request): RouteMatch
     {
-        $uri = $request->getUri();
+        $path = $request->getUri()->getPath();
         $method = $request->getMethod();
         $routes = $this->route['routing']['routes'];
         $regex_constructor = new RegexConstructor();
         foreach ($routes as $paths) {
-            if ($method !== $paths['method']) continue;
+            if ($method != $paths['method']) continue;
 
             $pattern = $regex_constructor->createRegex($paths);
 
-            if (preg_match($pattern, $uri, $matches)) {
+            if (preg_match($pattern, $path, $matches)) {
                 $filter = function ($var) {
                     return !is_numeric($var);
                 };
@@ -36,11 +36,12 @@ class Router implements RouterInterface
 
                 return new RouteMatch(
                     $request->getMethod(),
-                    $this->route['dispatcher']['controllerNamespace'].'\\'.$paths['controller'].$this->route['dispatcher']['controllerSuffix'],
+                    $paths['controller'],
                     $paths['action'],
                     $matches
                 );
             }
         }
+        throw new NoRouteException($path);
     }
 }

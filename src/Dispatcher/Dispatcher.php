@@ -10,16 +10,16 @@ use Framework\Routing\RouteMatch;
 
 class Dispatcher implements DispatcherInterface {
 
-    private $controllerNamespaces;
+    private $controllerNamespace;
     private $controllerSuffix;
-    private array $controllers;
+    private $controllers;
     /**
      * @inheritDoc
      */
 
     public function  __construct($controllerNamespaces, $controllerSuffix)
     {
-        $this->controllerNamespaces = $controllerNamespaces;
+        $this->controllerNamespace = $controllerNamespaces;
         $this->controllerSuffix = $controllerSuffix;
     }
 
@@ -30,8 +30,18 @@ class Dispatcher implements DispatcherInterface {
         $this->controllers[] = $c;
     }
 
-    public function dispatch(RouteMatch $routeMatch, Request $request): Response
+    private function getController(string $c) : AbstractController {
+        foreach ($this->controllers as $controller) {
+            if ($c === get_class($controller)) return $controller;
+        }
+    }
+
+    public function dispatch(RouteMatch $routeMatch, Request $request) : Response
     {
+        $controllerName = $this->controllerNamespace.'\\'.ucfirst( $routeMatch->getControllerName()).$this->controllerSuffix;
+        $controller = $this->getController($controllerName);
+        $action = $routeMatch->getActionName();
+        return $controller->$action($routeMatch, $request);
 
     }
 }
