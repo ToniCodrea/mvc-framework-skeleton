@@ -25,10 +25,10 @@ class Application
 
     public static function create(SymfonyContainer $container): self
     {
-        // TODO:
-        // implement the constructor and make sure that the statically created app is also added to the container
-        // for later usage
-        return new self($container);
+        $application = new self($container);
+        $container->set(self::class, $application);
+
+        return $application;
     }
 
     public function handle(Request $request): Response

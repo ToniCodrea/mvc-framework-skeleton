@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Framework\Controller;
-
 
 use Framework\Contracts\RendererInterface;
 use Framework\Http\Request;
@@ -22,7 +20,16 @@ class UserController extends AbstractController {
     }
 
     public function update (RouteMatch $routeMatch, Request $request) {
-        return $this->renderer->renderView('user2.phtml', $routeMatch->getRequestAttributes());
+        $message = $request->getBody()->getContents();
+        $toRender = array_merge($routeMatch->getRequestAttributes(), ['message' => $message]);
+
+        $query = $request->getUri()->getQuery();
+        $arr = explode('&', $query);
+        foreach ($arr as $key => $value) {
+            $arr[$key] = explode('=', $value);
+            $toRender = array_merge($toRender, [$arr[$key][0] => $arr[$key][1]]);
+        }
+        return $this->renderer->renderView('user2.phtml', $toRender);
     }
 
     public function get(RouteMatch $routeMatch, Request $request) : Response {

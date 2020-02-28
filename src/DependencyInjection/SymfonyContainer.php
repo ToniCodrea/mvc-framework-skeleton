@@ -24,7 +24,7 @@ class SymfonyContainer implements ContainerInterface
 
     public function set(string $id, ?object $service)
     {
-        $this->container->register($id, $service);
+        $this->container->set($id, $service);
     }
 
     public function get($id)

@@ -180,7 +180,7 @@ class Stream implements StreamInterface
             return null;
         }
         $this->rewind();
-        stream_get_contents($this->stream);
+        return stream_get_contents($this->stream);
     }
 
     /**
