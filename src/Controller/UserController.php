@@ -19,6 +19,14 @@ class UserController extends AbstractController {
         $this->userid = $id;
     }
 
+    public function delete (RouteMatch $routeMatch, Request $request) {
+        return $this->renderer->renderView('user3.phtml', $routeMatch->getRequestAttributes());
+    }
+
+    public function update (RouteMatch $routeMatch, Request $request) {
+        return $this->renderer->renderView('user2.phtml', $routeMatch->getRequestAttributes());
+    }
+
     public function get(RouteMatch $routeMatch, Request $request) : Response {
         return $this->renderer->renderView('user.phtml', $routeMatch->getRequestAttributes());
     }

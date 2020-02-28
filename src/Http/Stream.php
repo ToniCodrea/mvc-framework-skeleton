@@ -7,7 +7,7 @@ use Psr\Http\Message\StreamInterface;
 
 class Stream implements StreamInterface
 {
-    const DEFAULT_MEMORY = 5 * 1024 * 1024;
+    const DEFAULT_MEMORY = 2 * 1024 * 1024;
     const DEFAULT_MODE = 'r+';
     private $stream;
     private $size;
@@ -26,6 +26,7 @@ class Stream implements StreamInterface
     {
         $stream = fopen(sprintf("php://temp/maxmemory:%s", self::DEFAULT_MEMORY), self::DEFAULT_MODE);
         fwrite($stream,$content);
+
         return new self($stream,strlen($content));
     }
 
@@ -38,6 +39,7 @@ class Stream implements StreamInterface
             return null;
         }
         $this->rewind();
+
         return fread($this->stream, $this->size);
     }
 
@@ -60,7 +62,6 @@ class Stream implements StreamInterface
         if (!isset($this->stream)) {
             return null;
         }
-
         unset($this->stream);
         $this->size = null;
         $this->readable = $this->writable = $this->seekable = false;
@@ -82,6 +83,7 @@ class Stream implements StreamInterface
         if (!isset($this->stream)) {
             return null;
         }
+
         return ftell($this->stream);
     }
 
@@ -93,6 +95,7 @@ class Stream implements StreamInterface
         if (!isset($this->stream)) {
             return null;
         }
+
         return feof($this->stream);
     }
 
@@ -112,6 +115,7 @@ class Stream implements StreamInterface
         if (!isset($this->stream)) {
             return null;
         }
+
         return fseek($this->stream, $offset, $whence);
     }
 
@@ -123,6 +127,7 @@ class Stream implements StreamInterface
         if (!isset($this->stream)) {
             return null;
         }
+
         return rewind($this->stream);
     }
 
@@ -142,6 +147,7 @@ class Stream implements StreamInterface
         if (!isset($this->stream)) {
             return null;
         }
+
         return fwrite($this->stream, $string);
     }
 
@@ -161,6 +167,7 @@ class Stream implements StreamInterface
         if (!isset($this->stream)) {
             return null;
         }
+
         return fread($this->stream, $length);
     }
 
@@ -181,6 +188,14 @@ class Stream implements StreamInterface
      */
     public function getMetadata($key = null)
     {
+        $arr = stream_get_meta_data($this->stream)
+        if (!$key) {
+            return $arr;
+        }
+        if ($arr[$key]) {
+            return $arr[$key];
+        }
 
+        return null;
     }
 }

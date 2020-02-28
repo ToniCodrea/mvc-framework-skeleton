@@ -13,7 +13,6 @@ class Message implements MessageInterface
     protected $headers;
     protected $body;
 
-
     public function __construct(string $protocolVersion, StreamInterface $body)
     {
         $this->protocolVersion = $protocolVersion;
@@ -77,17 +76,23 @@ class Message implements MessageInterface
     public function withHeader($name, $value)
     {
         $message = clone $this;
-        $message->headers[$name][] = $value;
+        $message = $message->withoutHeader($name);
+        $message = $message->withAddedHeader($name, $value);
+
         return $message;
     }
 
     /**
      * @inheritDoc
      */
+
     public function withAddedHeader($name, $value)
     {
         $message = clone $this;
-        $message->headers[$name][] = $value;
+        foreach ($value as $values) {
+            $message->headers[$name][] = $values;
+        }
+
         return $message;
     }
 
@@ -98,6 +103,7 @@ class Message implements MessageInterface
     {
         $message = clone $this;
         unset($message->headers[$name]);
+
         return $message;
     }
 
@@ -116,6 +122,7 @@ class Message implements MessageInterface
     {
         $message = clone $this;
         $message->body = $body;
+
         return $message;
     }
 }

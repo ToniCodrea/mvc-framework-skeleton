@@ -26,6 +26,7 @@ class Request extends Message implements RequestInterface
     )
     {
         parent::__construct($protocolVersion, $body);
+
         $this->method = $method;
         $this->uri = $uri;
         }
@@ -51,6 +52,7 @@ class Request extends Message implements RequestInterface
     {
         $name = ucwords(strtolower(strtr(substr($name, 5), '_', '-')), '-');
         $this->headers[$name] = explode(',', $value);
+
         return $this;
     }
 
@@ -65,6 +67,7 @@ class Request extends Message implements RequestInterface
         if ($this->uri) {
             return $this->uri->__toString();
         }
+
         return "/";
     }
 
@@ -75,6 +78,7 @@ class Request extends Message implements RequestInterface
     {
         $request = clone $this;
         $request->requestTarget = "$requestTarget";
+
         return $request;
     }
 
@@ -93,6 +97,7 @@ class Request extends Message implements RequestInterface
     {
         $request = clone $this;
         $request->method = $method;
+
         return $request;
     }
 
@@ -111,6 +116,7 @@ class Request extends Message implements RequestInterface
     {
         $request = clone $this;
         $request->uri = $uri;
+
         return $request;
     }
 }

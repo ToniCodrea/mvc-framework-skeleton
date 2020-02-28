@@ -23,16 +23,16 @@ class Session implements SessionInterface {
 
     public function set(string $name, $value): void
     {
-        //todo
+        $_SESSION[$name] = $value;
     }
 
     public function get(string $name)
     {
-        // TODO: Implement get() method.
+        return $_SESSION[$name];
     }
 
     public function delete(string $name)
     {
-        // TODO: Implement delete() method.
+        unset($_SESSION[$name]);
     }
 }

@@ -24,7 +24,9 @@ class Router implements RouterInterface
         $routes = $this->route['routing']['routes'];
         $regex_constructor = new RegexConstructor();
         foreach ($routes as $paths) {
-            if ($method != $paths['method']) continue;
+            if ($method != $paths['method']) {
+                continue;
+            }
 
             $pattern = $regex_constructor->createRegex($paths);
 
@@ -32,6 +34,7 @@ class Router implements RouterInterface
                 $filter = function ($var) {
                     return !is_numeric($var);
                 };
+
                 $matches = array_filter($matches, $filter, ARRAY_FILTER_USE_KEY);
 
                 return new RouteMatch(

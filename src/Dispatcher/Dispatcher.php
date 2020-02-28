@@ -32,16 +32,18 @@ class Dispatcher implements DispatcherInterface {
 
     private function getController(string $c) : AbstractController {
         foreach ($this->controllers as $controller) {
-            if ($c === get_class($controller)) return $controller;
+            if ($c === get_class($controller)) {
+                return $controller;
+            }
         }
     }
 
     public function dispatch(RouteMatch $routeMatch, Request $request) : Response
     {
-        $controllerName = $this->controllerNamespace.'\\'.ucfirst( $routeMatch->getControllerName()).$this->controllerSuffix;
+        $controllerName = $this->controllerNamespace.'\\'.ucfirst($routeMatch->getControllerName()).$this->controllerSuffix;
         $controller = $this->getController($controllerName);
         $action = $routeMatch->getActionName();
-        return $controller->$action($routeMatch, $request);
 
+        return $controller->$action($routeMatch, $request);
     }
 }

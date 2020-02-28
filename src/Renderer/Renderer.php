@@ -30,6 +30,7 @@ class Renderer implements RendererInterface  {
         ob_get_clean();
 
         $stream = Stream::createFromString($content);
+
         return new Response($stream);
     }
 
@@ -38,8 +39,7 @@ class Renderer implements RendererInterface  {
     {
         $json = json_encode($data);
         $stream = Stream::createFromString($json);
-        $response = new Response($stream);
 
-        return $response;
+        return new Response($stream);
     }
 }

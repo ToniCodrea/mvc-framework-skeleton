@@ -29,15 +29,19 @@ $configuration = [
                 'method' => 'POST',
                 'controller' => 'user',
                 'action' => 'update',
-                Router::CONFIG_KEY_PATH => '/user',
-                'attributes' => []
+                Router::CONFIG_KEY_PATH => '/user/{id}',
+                'attributes' => [
+                    'id' => '\d+'
+                ]
             ],
             'user_delete' => [
                 'method' => 'DELETE',
                 'controller' => 'user',
                 'action' => 'delete',
-                Router::CONFIG_KEY_PATH => '/user',
-                'attributes' => []
+                Router::CONFIG_KEY_PATH => '/user/{id}',
+                'attributes' => [
+                    'id' => '\d+'
+                ]
             ]
         ],
     ]

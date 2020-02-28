@@ -20,13 +20,13 @@ use Framework\Routing\RouteMatch;
 // create the application and handle the request
 //$application = Application::create($container);
 
+$config = require $baseDir.'/config/routes.php';
+$router = new Router($config);
 $request = Request::createFromGlobals();
-$dispatch = new Dispatcher('Framework\Controller', 'Controller');
-$router = new Router(require $baseDir.'/config/routes.php');
 $routeMatch = $router->route($request);
 $basePath = $baseDir.'/views/';
 $render = new \Framework\Renderer\Renderer($basePath);
+$dispatch = new Dispatcher($config['dispatcher']['controllerNamespace'], $config['dispatcher']['controllerSuffix']);
 $dispatch->addController(new UserController($render, 1) );
 $response = $dispatch->dispatch($routeMatch, $request);
 $response->send();
-//print_r($router);

@@ -51,6 +51,7 @@ class Response extends Message implements ResponseInterface
         $response = clone $this;
         $response->statusCode = $code;
         $response->reason = $reasonPhrase;
+
         return $response;
     }
 
