@@ -1,8 +1,7 @@
 <?php
 
 
-namespace Framework\Router;
-
+namespace Framework\Exceptions;
 
 use Throwable;
 

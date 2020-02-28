@@ -8,6 +8,7 @@ use Framework\Contracts\RouterInterface;
 use Framework\DependencyInjection\SymfonyContainer;
 use Framework\Http\Request;
 use Framework\Http\Response;
+use Framework\Router\NoRouteException;
 use Framework\Routing\RouteMatch;
 use Framework\Contracts\ContainerInterface;
 
@@ -46,7 +47,6 @@ class Application
     public function handle(Request $request): Response
     {
         $routeMatch = $this->getRouter()->route($request);
-
         return $this->getDispatcher()->dispatch($routeMatch, $request);
     }
 

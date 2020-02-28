@@ -3,6 +3,7 @@
 namespace Framework\Router;
 
 use Framework\Contracts\RouterInterface;
+use Framework\Exceptions\NoRouteException;
 use Framework\Http\Request;
 use Framework\Regex\RegexConstructor;
 use Framework\Routing\RouteMatch;

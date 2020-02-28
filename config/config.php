@@ -31,10 +31,12 @@ $configuration = [
             ],
             'user_post' => [
                 Router::CONFIG_KEY_METHOD => 'POST',
-                Router::CONFIG_KEY_CONTROLLER => 'user',
-                Router::CONFIG_KEY_ACTION => 'update',
-                Router::CONFIG_KEY_PATH => '/user/{id}/role/{name}/\?p={priority}',
+                Router::CONFIG_KEY_CONTROLLER => '{user}',
+                Router::CONFIG_KEY_ACTION => '{update}',
+                Router::CONFIG_KEY_PATH => '/{user}/{id}/role/{name}/\?p={priority}',
                 Router::CONFIG_KEY_ATTRIBUTES => [
+                    'user' => '\w+',
+                    'update' => '\w+',
                     'id' => '\d+',
                     'name' => '\w+',
                     'priority' => '\d+'
