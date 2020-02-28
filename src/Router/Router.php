@@ -10,6 +10,10 @@ use Framework\Routing\RouteMatch;
 class Router implements RouterInterface
 {
     const CONFIG_KEY_PATH = "path";
+    const CONFIG_KEY_ACTION = "action";
+    const CONFIG_KEY_METHOD = "method";
+    const CONFIG_KEY_CONTROLLER = "controller";
+    const CONFIG_KEY_ATTRIBUTES = "attributes";
     private $route = null;
 
     public function __construct($routes)
@@ -24,7 +28,7 @@ class Router implements RouterInterface
         $routes = $this->route['routing']['routes'];
         $regex_constructor = new RegexConstructor();
         foreach ($routes as $paths) {
-            if ($method != $paths['method']) {
+            if ($method != $paths[self::CONFIG_KEY_METHOD]) {
                 continue;
             }
 
@@ -39,8 +43,8 @@ class Router implements RouterInterface
 
                 return new RouteMatch(
                     $request->getMethod(),
-                    $paths['controller'],
-                    $paths['action'],
+                    $paths[self::CONFIG_KEY_CONTROLLER],
+                    $paths[self::CONFIG_KEY_ACTION],
                     $matches
                 );
             }

@@ -9,6 +9,7 @@ use Framework\Http\Stream;
 class Renderer implements RendererInterface  {
 
     private $baseViewsPath;
+    const CONFIG_KEY_BASE_VIEW_PATH = "base_view_path";
 
     public function __construct(string $baseViewsPath)
     {

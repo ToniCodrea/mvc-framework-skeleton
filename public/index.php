@@ -10,9 +10,8 @@ use Framework\Application;
 use Framework\Controller\UserController;
 use Framework\Dispatcher\Dispatcher;
 use Framework\Http\Request;
-use Framework\Http\URI;
 use Framework\Router\Router;
-use Framework\Routing\RouteMatch;
+
 
 // obtain the DI container
 //$container = require $baseDir.'/config/services.php';
@@ -20,13 +19,12 @@ use Framework\Routing\RouteMatch;
 // create the application and handle the request
 //$application = Application::create($container);
 
-$config = require $baseDir.'/config/routes.php';
+$config = require $baseDir . '/config/config.php';
 $router = new Router($config);
 $request = Request::createFromGlobals();
 try {
     $routeMatch = $router->route($request);
-    $basePath = $baseDir.'/views/';
-    $render = new \Framework\Renderer\Renderer($basePath);
+    $render = new \Framework\Renderer\Renderer($config['renderer'][\Framework\Renderer\Renderer::CONFIG_KEY_BASE_VIEW_PATH]);
     $dispatch = new Dispatcher($config['dispatcher']['controllerNamespace'], $config['dispatcher']['controllerSuffix']);
     $dispatch->addController(new UserController($render, 1) );
     $response = $dispatch->dispatch($routeMatch, $request);
