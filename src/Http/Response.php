@@ -19,14 +19,16 @@ class Response extends Message implements ResponseInterface
 
     public function send(): void
     {
-        //$this->sendHeaders();
+        $this->sendHeaders();
         $this->sendBody();
     }
 
     private function sendHeaders(): void
     {
-        foreach ($this->headers as $header => $value) {
-            echo header($header);
+        if ($this->headers) {
+            foreach ($this->headers as $header => $value) {
+                header($header . ":". implode(",", $value));
+            }
         }
     }
 

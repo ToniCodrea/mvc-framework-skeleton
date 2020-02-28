@@ -29,9 +29,11 @@ $configuration = [
                 'method' => 'POST',
                 'controller' => 'user',
                 'action' => 'update',
-                Router::CONFIG_KEY_PATH => '/user/{id}',
+                Router::CONFIG_KEY_PATH => '/user/{id}/role/{name}/\?p={priority}',
                 'attributes' => [
-                    'id' => '\d+'
+                    'id' => '\d+',
+                    'name' => '\w+',
+                    'priority' => '\d+'
                 ]
             ],
             'user_delete' => [

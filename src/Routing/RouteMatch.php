@@ -27,12 +27,10 @@ class RouteMatch
         return $this->controller;
     }
 
-
     public function getActionName(): string
     {
         return $this->action;
     }
-
 
     public function getRequestAttributes(): array
     {

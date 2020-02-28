@@ -23,10 +23,14 @@ use Framework\Routing\RouteMatch;
 $config = require $baseDir.'/config/routes.php';
 $router = new Router($config);
 $request = Request::createFromGlobals();
-$routeMatch = $router->route($request);
-$basePath = $baseDir.'/views/';
-$render = new \Framework\Renderer\Renderer($basePath);
-$dispatch = new Dispatcher($config['dispatcher']['controllerNamespace'], $config['dispatcher']['controllerSuffix']);
-$dispatch->addController(new UserController($render, 1) );
-$response = $dispatch->dispatch($routeMatch, $request);
-$response->send();
+try {
+    $routeMatch = $router->route($request);
+    $basePath = $baseDir.'/views/';
+    $render = new \Framework\Renderer\Renderer($basePath);
+    $dispatch = new Dispatcher($config['dispatcher']['controllerNamespace'], $config['dispatcher']['controllerSuffix']);
+    $dispatch->addController(new UserController($render, 1) );
+    $response = $dispatch->dispatch($routeMatch, $request);
+    $response->send();
+} catch (\Framework\Router\NoRouteException $e) {
+    echo "Invalid route: " . $e->getRoute();
+}

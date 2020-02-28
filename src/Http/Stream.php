@@ -188,7 +188,7 @@ class Stream implements StreamInterface
      */
     public function getMetadata($key = null)
     {
-        $arr = stream_get_meta_data($this->stream)
+        $arr = stream_get_meta_data($this->stream);
         if (!$key) {
             return $arr;
         }

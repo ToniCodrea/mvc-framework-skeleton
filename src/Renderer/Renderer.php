@@ -12,7 +12,7 @@ class Renderer implements RendererInterface  {
 
     public function __construct(string $baseViewsPath)
     {
-        $this->baseViewsPath =$baseViewsPath;
+        $this->baseViewsPath = $baseViewsPath;
     }
 
     public function renderView(string $viewFile, array $arguments) : Response
