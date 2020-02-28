@@ -11,12 +11,10 @@ use Framework\Renderer\Renderer;
 use Framework\Routing\RouteMatch;
 
 class UserController extends AbstractController {
-    private $userid;
 
-    public function __construct(RendererInterface $renderer, $id)
+    public function __construct(RendererInterface $renderer)
     {
         parent::__construct($renderer);
-        $this->userid = $id;
     }
 
     public function delete (RouteMatch $routeMatch, Request $request) {

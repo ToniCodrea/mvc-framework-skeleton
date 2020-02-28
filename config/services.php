@@ -15,7 +15,7 @@ $container = new ContainerBuilder();
 $container->setParameter('config', $config);
 $container->register(RouterInterface::class, Router::class)
             ->addArgument('%config%');
-$container->setParameter('baseViewPath', __DIR__.'/views');
+$container->setParameter('baseViewPath', '/var/www/mvc-framework-skeleton/views/');
 $container->register(RendererInterface::class, Renderer::class)
     ->addArgument('%baseViewPath%');
 $container->register(\Framework\Controller\UserController::class,UserController::class)

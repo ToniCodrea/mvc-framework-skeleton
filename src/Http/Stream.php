@@ -15,7 +15,7 @@ class Stream implements StreamInterface
     private $readable;
     private $seekable;
 
-    public function __construct($handler,int $size = null)
+    public function __construct($handler, ?int $size = null)
     {
         $this->stream = $handler;
         $this->size = $size;

@@ -119,4 +119,20 @@ class Request extends Message implements RequestInterface
 
         return $request;
     }
+
+    public function getParameter (string $name) {
+        return $_GET[$name];
+    }
+
+    public function getCookie (string $name) {
+        return $_COOKIE[$name];
+    }
+
+    public function moveUploadedFile (string $name, string $path) {
+        if (isset($_FILES[$name])) {
+            if ($_FILES[$name]['error'] != UPLOAD_ERR_OK) {
+                move_uploaded_file($_FILES[$name]['tmp_name'], $path);
+            }
+        }
+    }
 }
