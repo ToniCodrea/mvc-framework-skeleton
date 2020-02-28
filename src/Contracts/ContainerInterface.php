@@ -9,5 +9,10 @@ namespace Framework\Contracts;
  */
 interface ContainerInterface extends \Psr\Container\ContainerInterface
 {
+    /**
+     * @param string $id
+     * @param object|null $service
+     * @return mixed
+     */
     public function set(string $id, ?object $service);
 }

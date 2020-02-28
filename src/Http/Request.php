@@ -18,6 +18,13 @@ class Request extends Message implements RequestInterface
      */
     private $uri;
 
+    /**
+     * Request constructor.
+     * @param string $protocolVersion
+     * @param string $method
+     * @param UriInterface $uri
+     * @param StreamInterface $body
+     */
     public function __construct(
         string $protocolVersion,
         string $method,
@@ -31,6 +38,9 @@ class Request extends Message implements RequestInterface
         $this->uri = $uri;
         }
 
+    /**
+     * @return static
+     */
     public static function createFromGlobals(): self
     {
         $protocolVersion = $_SERVER['SERVER_PROTOCOL'];
@@ -48,6 +58,11 @@ class Request extends Message implements RequestInterface
         return $request;
     }
 
+    /**
+     * @param $name
+     * @param $value
+     * @return $this
+     */
     public function addRawHeader($name, $value)
     {
         $name = ucwords(strtolower(strtr(substr($name, 5), '_', '-')), '-');
@@ -120,14 +135,26 @@ class Request extends Message implements RequestInterface
         return $request;
     }
 
+    /**
+     * @param string $name
+     * @return mixed
+     */
     public function getParameter(string $name) {
         return $_GET[$name];
     }
 
+    /**
+     * @param string $name
+     * @return mixed
+     */
     public function getCookie(string $name) {
         return $_COOKIE[$name];
     }
 
+    /**
+     * @param string $name
+     * @param string $path
+     */
     public function moveUploadedFile(string $name, string $path) {
         if (isset($_FILES[$name])) {
             if ($_FILES[$name]['error'] != UPLOAD_ERR_OK) {

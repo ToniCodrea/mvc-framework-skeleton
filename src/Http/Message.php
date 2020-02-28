@@ -13,6 +13,11 @@ class Message implements MessageInterface
     protected $headers;
     protected $body;
 
+    /**
+     * Message constructor.
+     * @param string $protocolVersion
+     * @param StreamInterface $body
+     */
     public function __construct(string $protocolVersion, StreamInterface $body)
     {
         $this->protocolVersion = $protocolVersion;

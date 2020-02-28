@@ -16,11 +16,20 @@ class Router implements RouterInterface
     const CONFIG_KEY_ATTRIBUTES = "attributes";
     private $route = null;
 
+    /**
+     * Router constructor.
+     * @param $routes
+     */
     public function __construct($routes)
     {
         $this->route = $routes;
     }
 
+    /**
+     * @param Request $request
+     * @return RouteMatch
+     * @throws NoRouteException
+     */
     public function route(Request $request): RouteMatch
     {
         $path = $request->getUri()->getPath();

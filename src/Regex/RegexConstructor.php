@@ -6,6 +6,10 @@ use Framework\Router\Router;
 
 class RegexConstructor
 {
+    /**
+     * @param array $config
+     * @return string
+     */
     public function createRegex(array $config): string {
         $string = $config[Router::CONFIG_KEY_PATH];
 

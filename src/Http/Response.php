@@ -10,6 +10,12 @@ class Response extends Message implements ResponseInterface
     private $statusCode;
     private $reason;
 
+    /**
+     * Response constructor.
+     * @param StreamInterface $body
+     * @param string $protocolVersion
+     * @param int $statusCode
+     */
     public function __construct(StreamInterface $body, string $protocolVersion = "1.1", $statusCode = 200)
     {
         parent::__construct($protocolVersion, $body);
@@ -17,12 +23,18 @@ class Response extends Message implements ResponseInterface
 
     }
 
+    /**
+     *
+     */
     public function send(): void
     {
         $this->sendHeaders();
         $this->sendBody();
     }
 
+    /**
+     *
+     */
     private function sendHeaders(): void
     {
         if ($this->headers) {
@@ -32,6 +44,9 @@ class Response extends Message implements ResponseInterface
         }
     }
 
+    /**
+     *
+     */
     private function sendBody(): void
     {
         echo $this->body;

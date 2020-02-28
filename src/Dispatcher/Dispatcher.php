@@ -13,6 +13,7 @@ class Dispatcher implements DispatcherInterface {
     private $controllerNamespace;
     private $controllerSuffix;
     private $controllers;
+
     /**
      * @inheritDoc
      */
@@ -26,18 +27,27 @@ class Dispatcher implements DispatcherInterface {
     /**
      * @param AbstractController $c
      */
-    public function addController (AbstractController $c) {
-        $this->controllers[] = $c;
+    public function addController (AbstractController $c)
+    {
+        $this->controllers[get_class($c)] = $c;
     }
 
-    private function getController(string $c) : AbstractController {
-        foreach ($this->controllers as $controller) {
-            if ($c === get_class($controller)) {
-                return $controller;
-            }
+    /**
+     * @param string $c
+     * @return AbstractController
+     */
+    private function getController(string $c) : AbstractController
+    {
+        if ($this->controllers[$c]) {
+            return $this->controllers[$c];
         }
     }
 
+    /**
+     * @param RouteMatch $routeMatch
+     * @param Request $request
+     * @return Response
+     */
     public function dispatch(RouteMatch $routeMatch, Request $request) : Response
     {
         $controllerName = $this->controllerNamespace.'\\'.ucfirst($routeMatch->getControllerName()).$this->controllerSuffix;

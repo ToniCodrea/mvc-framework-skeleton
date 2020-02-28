@@ -11,11 +11,20 @@ class Renderer implements RendererInterface  {
     private $baseViewsPath;
     const CONFIG_KEY_BASE_VIEW_PATH = "base_view_path";
 
+    /**
+     * Renderer constructor.
+     * @param string $baseViewsPath
+     */
     public function __construct(string $baseViewsPath)
     {
         $this->baseViewsPath = $baseViewsPath;
     }
 
+    /**
+     * @param string $viewFile
+     * @param array $arguments
+     * @return Response
+     */
     public function renderView(string $viewFile, array $arguments) : Response
     {
         $fullPath = $this->baseViewsPath . $viewFile;
@@ -35,7 +44,10 @@ class Renderer implements RendererInterface  {
         return new Response($stream);
     }
 
-
+    /**
+     * @param array $data
+     * @return Response
+     */
     public function renderJson(array $data) : Response
     {
         $json = json_encode($data);

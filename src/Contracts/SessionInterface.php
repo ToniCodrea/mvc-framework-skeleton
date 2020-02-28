@@ -3,6 +3,7 @@ namespace Framework\Contracts;
 
 interface SessionInterface
 {
+
     public function start(): void;
 
     public function destroy(): void;

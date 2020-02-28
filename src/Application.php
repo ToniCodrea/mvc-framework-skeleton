@@ -18,11 +18,19 @@ class Application
      */
     private $container;
 
+    /**
+     * Application constructor.
+     * @param SymfonyContainer $container
+     */
     public function __construct(SymfonyContainer $container)
     {
         $this->container = $container;
     }
 
+    /**
+     * @param SymfonyContainer $container
+     * @return static
+     */
     public static function create(SymfonyContainer $container): self
     {
         $application = new self($container);
@@ -31,6 +39,10 @@ class Application
         return $application;
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function handle(Request $request): Response
     {
         $routeMatch = $this->getRouter()->route($request);
@@ -38,11 +50,17 @@ class Application
         return $this->getDispatcher()->dispatch($routeMatch, $request);
     }
 
+    /**
+     * @return RouterInterface
+     */
     private function getRouter(): RouterInterface
     {
         return $this->container->get(RouterInterface::class);
     }
 
+    /**
+     * @return DispatcherInterface
+     */
     private function getDispatcher(): DispatcherInterface
     {
         return $this->container->get(DispatcherInterface::class);
