@@ -224,6 +224,19 @@ class URI implements UriInterface
     }
 
     /**
+     * @return array
+     */
+    public function getQueryArray () {
+        $query = $this->getQuery();
+        $arr = explode('&', $query);
+        foreach ($arr as $key => $value) {
+            $arr[$key] = explode('=', $value);
+        }
+
+        return $arr;
+    }
+
+    /**
      * @inheritDoc
      */
     public function __toString()

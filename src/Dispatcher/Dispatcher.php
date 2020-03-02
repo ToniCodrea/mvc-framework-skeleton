@@ -53,16 +53,17 @@ class Dispatcher implements DispatcherInterface {
      * @param Request $request
      * @return Response
      * @throws NoControllerException
-     * @throws Exceptions\NoMethodException
+    // * @throws Exceptions\NoMethodException
      */
     public function dispatch(RouteMatch $routeMatch, Request $request) : Response
     {
         $controllerName = $this->controllerNamespace.'\\'.ucfirst($routeMatch->getControllerName()).$this->controllerSuffix;
         $controller = $this->getController($controllerName);
         $action = $routeMatch->getActionName();
-        if (!(method_exists($controller, $action)) {
+        /*if ( !(method_exists($controller, $action) )
+        {
             throw new NoMethodException($action);
-        }
+        } */
         return $controller->$action($routeMatch, $request);
     }
 }
