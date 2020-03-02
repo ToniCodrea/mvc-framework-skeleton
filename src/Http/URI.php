@@ -51,7 +51,7 @@ class URI implements UriInterface
      * @return static
      */
     public static function createFromGlobals(): self {
-        return new URI($_SERVER['HTTP_HOST'], $_SERVER['REQUEST_SCHEME'], "", "", $_SERVER['SERVER_PORT'], $_SERVER['REQUEST_URI'], $_SERVER['QUERY_STRING'], "");
+        return new URI($_SERVER['HTTP_HOST'], $_SERVER['REQUEST_SCHEME'], "", "", $_SERVER['SERVER_PORT'], substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')), $_SERVER['QUERY_STRING'], "");
     }
 
     /**
