@@ -10,13 +10,26 @@ use Psr\Http\Message\UriInterface;
 
 class Request extends Message implements RequestInterface
 {
+    /**
+     * @var
+     */
     private $requestTarget;
+    /**
+     * @var string
+     */
     private $method;
-
     /**
      * @var UriInterface
      */
     private $uri;
+    /**
+     * @var array
+     */
+    private $cookies;
+    /**
+     * @var array
+     */
+    private $parameters;
 
     /**
      * Request constructor.
@@ -24,19 +37,25 @@ class Request extends Message implements RequestInterface
      * @param string $method
      * @param UriInterface $uri
      * @param StreamInterface $body
+     * @param array $parameters
+     * @param array $cookies
      */
     public function __construct(
         string $protocolVersion,
         string $method,
         UriInterface $uri,
-        StreamInterface $body
+        StreamInterface $body,
+        array $parameters,
+        array $cookies
     )
     {
         parent::__construct($protocolVersion, $body);
 
         $this->method = $method;
         $this->uri = $uri;
-        }
+        $this->cookies = $cookies;
+        $this->parameters = $parameters;
+    }
 
     /**
      * @return static
@@ -47,7 +66,9 @@ class Request extends Message implements RequestInterface
         $method = $_SERVER['REQUEST_METHOD'];
         $uri = Uri::createFromGlobals();
         $body = new Stream(fopen('php://input', 'r'), 1024);
-        $request = new self($protocolVersion,$method,$uri,$body);
+        $parameters = array_merge($_GET, $_POST);
+        $cookies = $_COOKIE;
+        $request = new self($protocolVersion,$method,$uri,$body, $parameters, $cookies);
         foreach($_SERVER as $variableName => $variableValue){
             if(strpos($variableName,'HTTP_') !== 0) {
                 continue;
@@ -140,7 +161,7 @@ class Request extends Message implements RequestInterface
      * @return mixed
      */
     public function getParameter(string $name) {
-        return $_GET[$name];
+        return $this->parameters[$name];
     }
 
     /**
@@ -148,7 +169,7 @@ class Request extends Message implements RequestInterface
      * @return mixed
      */
     public function getCookie(string $name) {
-        return $_COOKIE[$name];
+        return $this->cookies[$name];
     }
 
     /**
