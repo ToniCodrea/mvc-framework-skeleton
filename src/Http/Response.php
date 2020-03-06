@@ -9,17 +9,20 @@ class Response extends Message implements ResponseInterface
 {
     private $statusCode;
     private $reason;
+    private $location;
 
     /**
      * Response constructor.
      * @param StreamInterface $body
      * @param string $protocolVersion
      * @param int $statusCode
+     * @param null $location
      */
-    public function __construct(StreamInterface $body, string $protocolVersion = "1.1", $statusCode = 200)
+    public function __construct(StreamInterface $body, string $protocolVersion = "1.1", $statusCode = 200, $location = null)
     {
         parent::__construct($protocolVersion, $body);
         $this->statusCode = $statusCode;
+        $this->location = $location;
 
     }
 
@@ -37,6 +40,9 @@ class Response extends Message implements ResponseInterface
      */
     private function sendHeaders(): void
     {
+        if ($this->location) {
+            header($this->location);
+        }
         if ($this->headers) {
             foreach ($this->headers as $header => $value) {
                 header($header . ":". implode(",", $value));
