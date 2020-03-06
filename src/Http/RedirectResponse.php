@@ -16,11 +16,12 @@ class RedirectResponse extends Message implements ResponseInterface
 
     /**
      * Response constructor.
+     * @param string $location
      * @param StreamInterface $body
      * @param string $protocolVersion
      * @param int $statusCode
      */
-    public function __construct(string $location, string $protocolVersion = "1.1", int $statusCode = 302)
+    public function __construct(string $location, StreamInterface $body, string $protocolVersion = "1.1", int $statusCode = 302)
     {
         parent::__construct($protocolVersion, $body);
         $this->statusCode = $statusCode;
