@@ -5,6 +5,7 @@ namespace Framework;
 use Exception;
 use Framework\Contracts\DispatcherInterface;
 use Framework\Contracts\RouterInterface;
+use Framework\Contracts\SessionInterface;
 use Framework\DependencyInjection\SymfonyContainer;
 use Framework\Http\Request;
 use Framework\Http\Response;
@@ -47,6 +48,9 @@ class Application
     public function handle(Request $request): Response
     {
         $routeMatch = $this->getRouter()->route($request);
+        /** @var SessionInterface $session */
+        $session = $this->container->get(SessionInterface::class);
+        $session->start();
         return $this->getDispatcher()->dispatch($routeMatch, $request);
     }
 
