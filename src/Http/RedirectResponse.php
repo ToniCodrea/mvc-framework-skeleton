@@ -1,14 +1,18 @@
 <?php
 
+
 namespace Framework\Http;
+
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
-class Response extends Message implements ResponseInterface
+class RedirectResponse extends Message implements ResponseInterface
 {
+
     private $statusCode;
     private $reason;
+    private $location;
 
     /**
      * Response constructor.
@@ -16,10 +20,11 @@ class Response extends Message implements ResponseInterface
      * @param string $protocolVersion
      * @param int $statusCode
      */
-    public function __construct(StreamInterface $body, string $protocolVersion = "1.1", $statusCode = 200)
+    public function __construct(string $location, string $protocolVersion = "1.1", int $statusCode = 302)
     {
         parent::__construct($protocolVersion, $body);
         $this->statusCode = $statusCode;
+        $this->location = $location;
 
     }
 
@@ -29,7 +34,6 @@ class Response extends Message implements ResponseInterface
     public function send(): void
     {
         $this->sendHeaders();
-        $this->sendBody();
     }
 
     /**
@@ -37,21 +41,12 @@ class Response extends Message implements ResponseInterface
      */
     private function sendHeaders(): void
     {
-        if ($this->headers) {
-            foreach ($this->headers as $header => $value) {
-                header($header . ":". implode(",", $value));
-            }
-        }
+        header($this->location);
     }
 
     /**
      *
      */
-    private function sendBody(): void
-    {
-        echo $this->body;
-    }
-
     /**
      * @inheritDoc
      */
