@@ -162,7 +162,11 @@ class Request extends Message implements RequestInterface
      */
     public function getParameter(string $name)
     {
-        return $this->parameters[$name];
+        if (isset($this->parameters[$name])) {
+            return $this->parameters[$name];
+        }
+
+        return null;
     }
 
     public function getParameters() : array
