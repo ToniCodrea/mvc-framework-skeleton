@@ -229,11 +229,13 @@ class URI implements UriInterface
     public function getQueryArray () {
         $query = $this->getQuery();
         $arr = explode('&', $query);
+        $arr2 = [];
         foreach ($arr as $key => $value) {
             $arr[$key] = explode('=', $value);
+            $arr2[$arr[$key][0]] = $arr[$key][1];
         }
 
-        return $arr;
+        return $arr2;
     }
 
     /**
