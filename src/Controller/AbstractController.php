@@ -39,7 +39,7 @@ abstract class AbstractController
          * @var Response $response
          */
         $response = (new Response($body, '1.1', $statusCode))
-            ->withAddedHeader('Location', $location);
+            ->withAddedHeader('Location', [$location]);
 
         return $response;
     }
