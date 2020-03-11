@@ -95,7 +95,12 @@ class Message implements MessageInterface
     {
         $message = clone $this;
         foreach ($value as $values) {
-            $message->headers[$name][] = $values;
+            if(isset($message->headers[$name])) {
+                $message->headers[$name][] = $values;
+            }
+            else {
+                $message->headers[$name] = $value;
+            }
         }
 
         return $message;
