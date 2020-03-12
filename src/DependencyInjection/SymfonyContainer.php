@@ -49,4 +49,8 @@ class SymfonyContainer implements ContainerInterface
     {
         return $this->container->has($id);
     }
+
+    public function getParameter(string $name) {
+        return $this->container->getParameter($name);
+    }
 }

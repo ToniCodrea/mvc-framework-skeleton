@@ -7,6 +7,8 @@ use Throwable;
 
 class NoRouteException extends \Exception
 {
+
+    const EXCEPTION_HANDLER_CONFIG_KEY = 'exceptionHandler';
     /**
      * @var string
      */
