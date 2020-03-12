@@ -45,6 +45,31 @@ class Renderer implements RendererInterface  {
     }
 
     /**
+     * @param int $statusCode
+     * @param array $arguments
+     * @return Response
+     *
+     */
+    public function renderException(array $arguments, int $statusCode) : Response
+    {
+        $fullPath = $this->baseViewsPath . 'exceptions-page.phtml';
+
+        ob_start();
+
+        extract($arguments);
+
+        require $fullPath;
+
+        $content = ob_get_contents();
+
+        ob_end_clean();
+
+        $stream = Stream::createFromString($content);
+
+        return new Response($stream, '1.1', $statusCode);
+    }
+
+    /**
      * @param array $data
      * @return Response
      */
